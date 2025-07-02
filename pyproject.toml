@@ -50,6 +50,8 @@ dev = [
 ]
 
 [tool.setuptools]
+packages = ["avgn"]
+
 # Automatically find all packages like find_packages()
 [tool.setuptools.packages.find]
 where = ["."]
