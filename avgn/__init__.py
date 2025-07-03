@@ -3,4 +3,4 @@ import avgn.custom_parsing
 import avgn.signalprocessing
 import avgn.utils
 import avgn.visualization
-import VAE_analysis
+import avgn.VAE_analysis

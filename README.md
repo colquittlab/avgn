@@ -59,57 +59,70 @@ You have a dataset of animal vocalizations and you want to use AVGN to analyse t
 See the tutorials folder. This tutorial should make applying AVGN to your own data more clear.
 
 ### 0. Preparing Environment for Jupyter Lab
-0. Establishing secure shell connection to Lark using command prompt - Enter CruzID then enter password when requested
-    >shh <CruzID>@lark.ucsc.edu
-    >password 
-
-1. Install Micromamba in Lark secure shell command line using:  
-    >"${SHELL}" <(curl -L micro.mamba.pm/install.sh)
-
-2. Activate base environment & install jupyter
-	>micromamba activate  # this activates the base environment
-    >micromamba install python jupyter -c conda-forge
-
-3. Create environment to run kernel 
-    >micromamba create -n SongAnalysis python=3.10
-    >micromamba activate SongAnalysis
-    >micromamba install ipykernel ……
-    >python -m ipykernel install --user --name=SongAnalysis
-    >micromamba deactivate
-
-4. Set Up Proper JupyterLab config in home directory
-    >cd
-    >micromamba activate 
-    >jupyter lab --generate-config
+Connect to Lark using your command prompt and secure shell connection 
+```
+shh <CruzID>@lark.ucsc.edu # Enter your CruzID 
+password #Then enter password when requested
+```
+Now that you are in a lark secure shell install Micromamba type into command line: 
+``` 
+"${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+```
+Activate your base environment & install jupyter
+```
+micromamba activate  # this activates the base environment
+micromamba install python jupyter -c conda-forge
+```
+Create environment to run kernel 
+```
+micromamba create -n SongAnalysis python=3.10
+micromamba activate SongAnalysis
+micromamba install ipykernel
+python -m ipykernel install --user --name=SongAnalysis
+micromamba deactivate
+```
+Set Up Proper JupyterLab config in home directory by generating config file in home directory
+```
+cd # Puts you into home directory
+micromamba activate # Activate base directory
+jupyter lab --generate-config # Generates config
+```
 
 5. Edit config file to run on Lark
-    >cd .jupyter/
-    >nano jupyter_lab_config.py 
-    Ctr + w 
-    >.ip
-    Replace "c.ServerApp.ip = ‘localhost/127.0.0.1’" with "c.ServerApp.ip = ‘*’"
-    Ctr + x 
+```
+cd .jupyter/
+nano jupyter_lab_config.py 
+```
+With Ctr + w serach for ".ip", then replace "c.ServerApp.ip = ‘localhost/127.0.0.1’" with "c.ServerApp.ip = ‘*’". 
+Save with Ctr + x.
 
 6. Running Jupyter Lab using screen
-    >screen 
-    >micromamba activate # this activates the base environment 
-    >jupyter lab
-    Copy token provided into web browser to enter Jupyter lab 
-    >Ctr + A , Ctr + D # this exits the screen and returns to main
+```
+screen 
+micromamba activate # this activates the base environment 
+jupyter lab
+```
+    Copy token provided into web browser to enter Jupyter lab
+```
+Ctr + A , Ctr + D # this exits the screen and returns to main
+```
 
 
 ### 1. Clone and install AVGN
 
-1. Navigate to the foler in your local environment where you want to install the repository. 
-    >cd 
-    >cd micromamba/envs/SongAnalysis
-
-    Then type:
-    >micromamba activate SongAnalysis
-    >git clone https://github.com/colquittlab/avgn.git (now uses pyproject.toml)
+1. Using the command line navigate to the folder in your local environment where you want to install the repository. 
+```
+cd # Puts you into your home directory
+cd micromamba/envs/SongAnalysis # Puts you into your named environment directory
+micromamba activate SongAnalysis
+git clone https://github.com/colquittlab/avgn.git #now uses pyproject.toml
+```
 
 2. Install the package by typing: 
-    >pip install -e .
+```
+cd avgn
+pip install -e .
+```
 
 ### 2. Getting your data into the right format
 In building AVGN, we found datasets prepared in several different formats. To use AVGN, you'll need to translate your dataset from whatever format you currently have it in, to our format. Luckily (1) you have [several different examples]() to work off of, in trying to figure out how to translate your dataset into our format, and (2) the format we use is pretty universal and pretty easy. 

@@ -8,6 +8,7 @@ version = "0.2.0"
 description = "Latent models for visualizing, characterizing, and generating animal vocalizations"
 authors = [
   { name = "Tim Sainburg" }
+  { name = "Mathew Sarti" }
 ]
 license = { text = "MIT" }
 readme = "README.md"
@@ -48,9 +49,6 @@ dev = [
   "coverage",
   "flake8"
 ]
-
-[tool.setuptools]
-packages = ["avgn"]
 
 # Automatically find all packages like find_packages()
 [tool.setuptools.packages.find]
