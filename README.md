@@ -59,12 +59,7 @@ You have a dataset of animal vocalizations and you want to use AVGN to analyse t
 See the tutorials folder. This tutorial should make applying AVGN to your own data more clear.
 
 ### 0. Preparing Environment for Jupyter Lab
-Connect to Lark using your command prompt and secure shell connection 
-```
-shh <CruzID>@lark.ucsc.edu # Enter your CruzID 
-password #Then enter password when requested
-```
-Now that you are in a lark secure shell install Micromamba type into command line: 
+install Micromamba type into command line: 
 ``` 
 "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 ```
@@ -113,7 +108,8 @@ Ctr + A , Ctr + D # this exits the screen and returns to main
 1. Using the command line navigate to the folder in your local environment where you want to install the repository. 
 ```
 cd # Puts you into your home directory
-cd micromamba/envs/SongAnalysis # Puts you into your named environment directory
+mkdir github_repos # Makes a folder named github_repos
+cd github_repos # Puts you into your repo directory
 micromamba activate SongAnalysis
 git clone https://github.com/colquittlab/avgn.git #now uses pyproject.toml
 ```
