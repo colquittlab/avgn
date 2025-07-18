@@ -8,7 +8,7 @@ version = "0.2.0"
 description = "Latent models for visualizing, characterizing, and generating animal vocalizations"
 authors = [
   { name = "Tim Sainburg" },
-  { name = "Mathew Sarti" , email = mathsarti27@gmail.com},
+  { name = "Mathew Sarti" , email = "mathsarti27@gmail.com"},
 ]
 license = { text = "MIT" }
 readme = "README.md"
