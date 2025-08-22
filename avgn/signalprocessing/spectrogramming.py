@@ -97,8 +97,10 @@ def preemphasis(x, hparams):
     return signal.lfilter([1, -hparams.preemphasis], [1], x)
 
 
+
 def inv_preemphasis(x, hparams):
     return signal.lfilter([1], [1, -hparams.preemphasis], x)
+    
 
 
 def _griffin_lim(S, fs, hparams):

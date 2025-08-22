@@ -35,13 +35,13 @@ def process_bird_wav(
     """
     # Load up the WAV
     rate, data = load_wav(wav_info)
-    params["sample_rate"] = rate
+    params.sample_rate = rate
     if rate is None or data is None:
         return
 
     # bandpass filter
     data = butter_bandpass_filter(
-        data.astype("float32"), params["lowcut"], params["highcut"], rate, order=2
+        data.astype("float32"), params.lowcut, params.highcut, rate, order=2
     )
     data = float32_to_int16(data)
 
@@ -53,14 +53,14 @@ def process_bird_wav(
     rms_data, sound_threshed = RMS(
         data,
         rate,
-        params["rms_stride"],
-        params["rms_window"],
-        params["rms_padding"],
-        params["noise_thresh"],
+        params.rms_stride,
+        params.rms_window,
+        params.rms_padding,
+        params.noise_thresh,
     )
     # Find the onsets/offsets of sound
     onset_sounds, offset_sounds = detect_onsets_offsets(
-        np.repeat(sound_threshed, int(params["rms_stride"] * rate)),
+        np.repeat(sound_threshed, int(params.rms_stride * rate)),
         threshold=0,
         min_distance=0,
     )
@@ -74,7 +74,7 @@ def process_bird_wav(
         clip = data[onset_sound:offset_sound]
         ### if the clip is thresholded, as noise, do not save it into dataset
         # bin width in Hz of spectrogram
-        freq_step_size_Hz = (rate / 2) / params["num_freq"]
+        freq_step_size_Hz = (rate / 2) / params.num_freq
         bout_spec = threshold_clip(
             clip, rate, freq_step_size_Hz, params, visualize=visualize, verbose=verbose
         )
@@ -82,7 +82,7 @@ def process_bird_wav(
             # visualize spectrogram if desired
             if visualize:
                 # compute spectrogram of clip
-                wav_spectrogram = spectrogram(int16_to_float32(clip), params)
+                wav_spectrogram = spectrogram(int16_to_float32(clip), params.sample_rate, params)
                 visualize_spec(wav_spectrogram, show=True)
             continue
 
@@ -164,25 +164,25 @@ def threshold_clip(
     segment_length = len(clip) / float(rate)
 
     # return if the clip is the wrong length
-    if segment_length <= params["min_segment_length_s"]:
+    if segment_length <= params.min_segment_length_s:
         if verbose:
             print(
                 "Segment length {} less than minimum of {}".format(
-                    segment_length, params["min_segment_length_s"]
+                    segment_length, params.min_segment_length_s
                 )
             )
         return
-    if segment_length >= params["max_segment_length_s"]:
+    if segment_length >= params.max_segment_length_s:
         if verbose:
             print(
                 "Segment length {} greather than maximum of {}".format(
-                    segment_length, params["max_segment_length_s"]
+                    segment_length, params.max_segment_length_s
                 )
             )
         return
 
     # compute spectrogram of clip
-    wav_spectrogram = spectrogram(int16_to_float32(clip), params)
+    wav_spectrogram = spectrogram(int16_to_float32(clip), params.sample_rate, params)
     # determine the power of the spectral envelope
     norm_power = np.mean(wav_spectrogram, axis=0)
     norm_power = (norm_power - np.min(norm_power)) / (
@@ -193,11 +193,11 @@ def threshold_clip(
     peak_power_Hz = np.argmax(norm_power) * freq_step_size_Hz
 
     # threshold for the location of peak power
-    if peak_power_Hz < params["vocal_range_Hz"][0]:
+    if peak_power_Hz < params.vocal_range_Hz[0]:
         if verbose:
             print(
                 "Peak power {} Hz less than minimum of {}".format(
-                    peak_power_Hz, params["vocal_range_Hz"][0]
+                    peak_power_Hz, params.vocal_range_Hz[0]
                 )
             )
         return
@@ -207,20 +207,20 @@ def threshold_clip(
         np.sum(
             wav_spectrogram[
                 :,
-                int(params["vocal_range_Hz"][0] / freq_step_size_Hz) : int(
-                    params["vocal_range_Hz"][1] / freq_step_size_Hz
+                int(params.vocal_range_Hz[0] / freq_step_size_Hz) : int(
+                    params.vocal_range_Hz[1] / freq_step_size_Hz
                 ),
             ],
             axis=1,
         )
     )
     # the percent of the spectrogram below the noise threshold
-    pct_silent = np.sum(vocal_power <= params["noise_thresh"]) / float(len(vocal_power))
-    if pct_silent < params["min_silence_pct"]:
+    pct_silent = np.sum(vocal_power <= params.noise_thresh) / float(len(vocal_power))
+    if pct_silent < params.min_silence_pct:
         if verbose:
             print(
                 "Percent silent {} /% less than maximum of {}".format(
-                    pct_silent, params["min_silence_pct"]
+                    pct_silent, params.min_silence_pct
                 )
             )
         return
