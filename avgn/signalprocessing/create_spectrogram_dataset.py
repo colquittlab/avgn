@@ -103,7 +103,7 @@ def make_spec(
 
 def log_resize_spec(spec, scaling_factor=10):
     resize_shape = [int(np.log(np.shape(spec)[1]) * scaling_factor), np.shape(spec)[0]]
-    resize_spec = np.array(Image.fromarray(spec).resize(resize_shape, Image.ANTIALIAS))
+    resize_spec = np.array(Image.fromarray(spec).resize(resize_shape, Image.LANCZOS))
     return resize_spec
 
 
